@@ -32,7 +32,7 @@
       }
 
       const start = sectionHeight * offset.top;
-      const end = sectionHeight * (offset.bottom - offset.top + 1);
+      const end = sectionHeight * (offset.bottom || offset.top + 1);
       isSticky = getSticky(scrollTop, start, end);
       coord = getCoord(scrollTop, start, end, isSticky);
       progress.set(clamp((scrollTop - start) / (end - start), 0, 1));
