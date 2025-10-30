@@ -1,43 +1,61 @@
 {
-  "name": "svelte-parallax",
-  "author": "Lewis DAvanzo",
-  "version": "0.6.0",
-  "license": "MIT",
+  "name": "@yourusername/svelte-parallax",
+  "version": "1.0.0",
+  "description": "Parallax scrolling components for Svelte 5 - A modernized fork with full Svelte 5 runes support",
   "type": "module",
   "svelte": "src/index.js",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
   "types": "index.d.ts",
-  "repository": "https://github.com/kindoflew/svelte-parallax",
   "scripts": {
-    "dev": "cd ./sandbox && npm run dev",
-    "cy:open": "cypress open --component",
-    "test": "cypress run --component",
+    "dev": "vite dev",
     "build": "rollup -c",
-    "prepublishOnly": "npm run build"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "cypress": "^12.3.0",
-    "prettier": "^2.8.3",
-    "rollup": "^3.10.0",
-    "rollup-plugin-svelte": "^7.1.0",
-    "svelte": "^3.55.1",
-    "vite": "^4.0.4"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/svelte-parallax-for-5.git"
   },
+  "bugs": {
+    "url": "https://github.com/yourusername/svelte-parallax-for-5/issues"
+  },
+  "homepage": "https://github.com/yourusername/svelte-parallax-for-5#readme",
   "keywords": [
     "svelte",
-    "sveltekit",
-    "sapper",
+    "svelte5",
     "parallax",
-    "spring"
+    "scroll",
+    "animation",
+    "parallax-effect",
+    "svelte-component",
+    "runes"
   ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
   "files": [
     "src",
     "dist",
-    "index.d.ts"
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
   ],
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@sveltejs/vite-plugin-svelte": "^5.0.0",
+    "rollup": "^3.10.0",
+    "rollup-plugin-svelte": "^7.1.0",
+    "svelte": "^5.0.0",
+    "vite": "^6.4.1"
+  },
   "dependencies": {
     "focus-options-polyfill": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

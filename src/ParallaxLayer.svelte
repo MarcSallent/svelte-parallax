@@ -4,13 +4,16 @@
   import { contextKey, clamp } from './utils';
 
   /** rate that the layer scrolls relative to `scrollY` */
-  export let rate = 0.5;
-  /** offset from top of container when layer is in viewport */
-  export let offset = 0;
-  /** how many sections the layer spans */
-  export let span = 1;
-  /** a function that receives a number between 0 and 1, representing the progress of the layer */
-  export let onProgress = undefined;
+  let {
+    rate = 0.5,
+    /** offset from top of container when layer is in viewport */
+    offset = 0,
+    /** how many sections the layer spans */
+    span = 1,
+    /** a function that receives a number between 0 and 1, representing the progress of the layer */
+    onProgress = undefined,
+    ...restProps
+  } = $props();
 
   // get context from Parallax
   const { config, addLayer, removeLayer } = getContext(contextKey);
@@ -20,7 +23,7 @@
   // and one to hold intersecting progress
   const progress = spring(undefined, { ...config, precision: 0.001 });
   // layer height
-  let height;
+  let height = $state();
 
   const layer = {
     setPosition: (scrollTop, sectionHeight, disabled) => {
@@ -62,15 +65,18 @@
   });
 
   // translate layer according to coordinate
-  $: translate = `translate3d(0px, ${$coord}px, 0px);`;
-  $: if (onProgress) onProgress($progress ?? 0);
+  let translate = $derived(`translate3d(0px, ${$coord}px, 0px);`);
+
+  $effect(() => {
+    if (onProgress) onProgress($progress ?? 0);
+  });
 </script>
 
 <div
-  {...$$restProps}
-  class="parallax-layer {$$restProps.class ? $$restProps.class : ''}"
+  {...restProps}
+  class="parallax-layer {restProps.class ? restProps.class : ''}"
   style="
-    {$$restProps.style ? $$restProps.style : ''};
+    {restProps.style ? restProps.style : ''};
     height: {height}px;
     -ms-transform: {translate};
     -webkit-transform: {translate};
@@ -87,3 +93,4 @@
     box-sizing: border-box;
   }
 </style>
+

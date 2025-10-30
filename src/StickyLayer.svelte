@@ -4,19 +4,22 @@
   import { contextKey, clamp } from './utils';
 
   // offset bounds where layer is sticky
-  export let offset = { top: 0, bottom: 0 };
-  // expose progress store
-  export let onProgress = undefined;
+  let {
+    offset = { top: 0, bottom: 0 },
+    // expose progress store
+    onProgress = undefined,
+    ...restProps
+  } = $props();
 
   // get context from Parallax
   const { config, addLayer, removeLayer } = getContext(contextKey);
 
   // if layer should stick
-  let isSticky = false;
+  let isSticky = $state(false);
   // top coordinate of layer
-  let coord = 0;
+  let coord = $state(0);
   // layer height
-  let height;
+  let height = $state();
   // spring store to hold progress value
   const progress = spring(0, { ...config, precision: 0.001 });
 
@@ -29,7 +32,7 @@
       }
 
       const start = sectionHeight * offset.top;
-      const end = sectionHeight * (offset.bottom || offset.top + 1);
+      const end = sectionHeight * (offset.bottom - offset.top + 1);
       isSticky = getSticky(scrollTop, start, end);
       coord = getCoord(scrollTop, start, end, isSticky);
       progress.set(clamp((scrollTop - start) / (end - start), 0, 1));
@@ -62,16 +65,19 @@
     };
   });
 
-  $: position = isSticky ? 'fixed' : 'absolute';
-  $: translate = `translate3d(0px, ${coord}px, 0px);`;
-  $: if (onProgress) onProgress($progress ?? 0);
+  let position = $derived(isSticky ? 'fixed' : 'absolute');
+  let translate = $derived(`translate3d(0px, ${coord}px, 0px);`);
+
+  $effect(() => {
+    if (onProgress) onProgress($progress ?? 0);
+  });
 </script>
 
 <div
-  {...$$restProps}
-  class="sticky-layer {$$restProps.class ? $$restProps.class : ''}"
+  {...restProps}
+  class="sticky-layer {restProps.class ? restProps.class : ''}"
   style="
-    {$$restProps.style ? $$restProps.style : ''};
+    {restProps.style ? restProps.style : ''};
     position: {position};
     height: {height}px;
     -ms-transform: {translate}
@@ -90,3 +96,4 @@
     box-sizing: border-box;
   }
 </style>
+

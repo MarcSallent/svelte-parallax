@@ -1,7 +1,26 @@
 // fork of https://github.com/langbamit/svelte-scrollto
 import { cubicInOut } from 'svelte/easing';
-import { noop, loop, now } from 'svelte/internal';
 import _ from './helper.js';
+
+// Custom implementations to replace deprecated svelte/internal
+const noop = () => {};
+const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
+
+function loop(callback) {
+  let task;
+  if (typeof window !== 'undefined' && window.requestAnimationFrame) {
+    const frame = () => {
+      if (callback(now())) {
+        task = requestAnimationFrame(frame);
+      }
+    };
+    task = requestAnimationFrame(frame);
+    return () => {
+      if (task) cancelAnimationFrame(task);
+    };
+  }
+  return noop;
+}
 
 const defaultOptions = {
   container: 'body',
