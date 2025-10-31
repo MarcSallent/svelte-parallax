@@ -19,9 +19,9 @@
   const { config, addLayer, removeLayer } = getContext(contextKey);
 
   // spring store to hold changing scroll coordinate
-  const coord = spring(undefined, config);
+  const coord = spring(0, config);
   // and one to hold intersecting progress
-  const progress = spring(undefined, { ...config, precision: 0.001 });
+  const progress = spring(0, { ...config, precision: 0.001 });
   // layer height
   let height = $state();
 

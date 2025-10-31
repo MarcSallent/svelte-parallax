@@ -37,7 +37,7 @@
   let height = $state(0);
 
   // spring store to hold scroll progress
-  const progress = spring(undefined, { ...config, precision: 0.001 });
+  const progress = spring(0, { ...config, precision: 0.001 });
 
   // fake intersection observer - derived from reactive state
   const scrollTop = $derived.by(() => {
