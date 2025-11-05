@@ -32,7 +32,7 @@
         return;
       }
       // amount to scroll before layer is at target position
-      const targetScroll = Math.floor(offset) * sectionHeight;
+      const targetScroll = offset * sectionHeight;
       // distance to target position
       const distance = offset * sectionHeight + targetScroll * rate;
       coord.set(-(scrollTop * rate) + distance);
